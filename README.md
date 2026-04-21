@@ -14,6 +14,6 @@ Made by **BlexTech**.
 
 ```bash
 git clone https://github.com/BLEX-TECH/A-Wallpaper-Switcher.git
-cd BlexTech-Wallpaper-Manager 
+cd A-Wallpaper-Switcher
 chmod +x install.sh
 ./install.sh
