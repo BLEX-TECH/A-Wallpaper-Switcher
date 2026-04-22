@@ -1,14 +1,11 @@
 #!/bin/bash
 
-# Everything is contained in this folder
 BASE_DIR="$HOME/.config/Blex-Switcher"
 DIR="$BASE_DIR/Wallpapers"
 TEMP_LIST="/tmp/blex_wall_list.txt"
 
-# Ensure the list is fresh
 : > "$TEMP_LIST"
 
-# Build the list using the absolute path to the .config folder
 find "$DIR" -maxdepth 1 -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.gif" -o -iname "*.webp" \) | while read -r pic; do
     echo -en "$(basename "$pic")\0icon\x1f$pic\n" >> "$TEMP_LIST"
 done
