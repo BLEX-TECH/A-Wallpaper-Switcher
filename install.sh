@@ -1,47 +1,31 @@
 #!/bin/bash
 
-# BlexTech Wallpaper Manager Installer
 REPO_DIR=$(pwd)
-TARGET_DIR="$HOME/.config/hypr/UserScripts"
-WALL_DIR="$HOME/Pictures/Wallpapers"
-SCRIPT_FILE="$TARGET_DIR/WallpaperManager.sh"
+INSTALL_PATH="$HOME/.config/Blex-Switcher"
 
-echo "BlexTech Wallpaper Manager: Starting Installation..."
+echo "🚀 Installing Blex-Switcher to $INSTALL_PATH..."
 
-# 1. Shell Detection
-if command -v zsh >/dev/null 2>&1; then
-    USER_SHELL=$(command -v zsh)
-    echo "✔ Zsh detected."
-else
-    USER_SHELL=$(command -v bash)
-    echo "✔ Bash detected."
-fi
+# 1. Create the folder in .config
+mkdir -p "$INSTALL_PATH/Wallpapers"
 
-# 2. Folder Creation
-mkdir -p "$TARGET_DIR"
-mkdir -p "$WALL_DIR"
-
-# 3. Script Installation (with dynamic shebang)
+# 2. Move the script into .config/Blex-Switcher
 if [ -f "$REPO_DIR/WallpaperManager.sh" ]; then
-    # Sets the first line to the user's detected shell
-    sed "1s|.*|#!$USER_SHELL|" "$REPO_DIR/WallpaperManager.sh" > "$SCRIPT_FILE"
-    chmod +x "$SCRIPT_FILE"
-    echo "✔ Script installed to $TARGET_DIR"
+    cp "$REPO_DIR/WallpaperManager.sh" "$INSTALL_PATH/WallpaperManager.sh"
+    chmod +x "$INSTALL_PATH/WallpaperManager.sh"
+    echo "✔ Script moved to .config."
 else
-    echo "✘ Error: WallpaperManager.sh not found in current directory!"
+    echo "✘ Error: WallpaperManager.sh not found!"
     exit 1
 fi
 
-# 4. Copying Wallpapers Folder Content
+# 3. Move the Wallpapers folder into .config/Blex-Switcher/Wallpapers
 if [ -d "$REPO_DIR/Wallpapers" ]; then
-    echo "Syncing BlexTech Wallpapers to $WALL_DIR..."
-    # -v shows progress, -n prevents overwriting files they already have
-    cp -vn "$REPO_DIR/Wallpapers/"* "$WALL_DIR/"
-    echo "✔ Wallpaper folder synced successfully."
-else
-    echo "⚠ Warning: 'Wallpapers' folder not found in the repo. Skipping image copy."
+    echo "🖼  Copying 50+ Wallpapers to .config..."
+    cp -rn "$REPO_DIR/Wallpapers/"* "$INSTALL_PATH/Wallpapers/"
+    echo "✔ Wallpapers moved to .config."
 fi
 
 echo "---"
-echo "Installation complete by BlexTech!"
-echo "Your wallpapers are ready in $WALL_DIR"
+echo "✅ Installation Complete by BlexTech!"
+echo "To use it, add this bind to your hyprland.conf:"
+echo "bind = \$mainMod, W, exec, $INSTALL_PATH/WallpaperManager.sh choose"
